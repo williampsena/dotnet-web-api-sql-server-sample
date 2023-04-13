@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  sql-server-setup:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      - dotnet
+    entrypoint: /opt/mssql-tools/bin/sqlcmd
+    command: |
+      -S sql-server -U SA -P "HgVaMNvWiCwj2V" -Q \
+      "CREATE DATABASE CouponDB;"
+
+networks:
+  dotnet:
+    name: "dotnet"
+    external: true
