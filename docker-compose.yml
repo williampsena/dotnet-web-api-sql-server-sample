@@ -1,22 +1,32 @@
-version: '3.8'
+version: '3.9'
+
+name: dotnet
 
 services:
   sql-server:
     container_name: sql-server
     image: mcr.microsoft.com/mssql/server:2022-latest
     networks:
-      - dotnet
-    ports:
-      - 1433:1433
+      - db
     environment:
       MSSQL_SA_PASSWORD: HgVaMNvWiCwj2V
       ACCEPT_EULA: y
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P WRONG -Q \"SELECT 1\" 2>&1| grep -q \"Login failed\""]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - mssql:/var/opt/mssql
+      - sqlserver:/var/opt/sqlserver
 
   web:
     build:
       context: ./
     networks:
       - dotnet
+      - db
     depends_on:
       - sql-server
     environment:
@@ -33,6 +43,13 @@ services:
     depends_on:
       - web
 
+volumes:
+  mssql:
+  sqlserver:
+
 networks:
+  db:
+    name: db
   dotnet:
-    name: "dotnet"
+    name: dotnet
+  

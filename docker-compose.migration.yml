@@ -1,16 +1,18 @@
-version: '3.8'
+version: '3.9'
+
+name: dotnet-migration
 
 services:
   sql-server-setup:
     image: mcr.microsoft.com/mssql/server:2022-latest
     networks:
-      - dotnet
+      - db
     entrypoint: /opt/mssql-tools/bin/sqlcmd
     command: |
       -S sql-server -U SA -P "HgVaMNvWiCwj2V" -Q \
       "CREATE DATABASE CouponDB;"
 
 networks:
-  dotnet:
-    name: "dotnet"
+  db:
+    name: db
     external: true

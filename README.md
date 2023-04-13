@@ -5,8 +5,7 @@ This repository contains a sample dotnet web application with SQL Server powered
 # Setup database
 
 ```bash
-docker-compose up -d sql-server
-docker-compose -f docker-compose.migration.yml -p migration run --rm sql-server-setup
+docker compose up -d sql-server
 ```
 
 # Run migrations
@@ -14,7 +13,7 @@ docker-compose -f docker-compose.migration.yml -p migration run --rm sql-server-
 To prepare your database, perform migrations before starting apps.
 
 ```bash
-dotnet ef database update
+docker compose -f docker-compose.migration.yml -p migration run --rm sql-server-setup
 ```
 
 # Entity Framework
