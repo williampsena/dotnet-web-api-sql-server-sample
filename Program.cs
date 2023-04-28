@@ -15,6 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
+
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

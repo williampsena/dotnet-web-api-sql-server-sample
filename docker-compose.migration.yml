@@ -12,6 +12,15 @@ services:
       -S sql-server -U SA -P "HgVaMNvWiCwj2V" -Q \
       "CREATE DATABASE CouponDB;"
 
+  sql-server-migration:
+    image: willsenabr/dotnet-ef-migrations
+    networks:
+      - db
+    volumes:
+      - ./:/app
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+
 networks:
   db:
     name: db
